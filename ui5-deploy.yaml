@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "3.1"
+metadata:
+  name: ns.zpmorderreportapp
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          destination: HB4_BACKEND_SAP
+          url: http://basds4.sap.grupohada.com:44300
+        app:
+          name: ZPMORDERREPORT
+          description: Deploy V1
+          package: ZPM002
+          transport: DS4K900685
+        exclude:
+          - /test/

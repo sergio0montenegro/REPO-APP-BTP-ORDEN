@@ -1,0 +1,97 @@
+<mvc:View controllerName="ns.zpmorderreportapp.controller.Detail"
+   xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.uxap"
+	xmlns:m="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:forms="sap.ui.layout.form"
+	height="100%">
+
+    <m:Page 
+	navButtonPress="onNavBack"
+        showNavButton="false"
+		title="{i18n>Detalle}">
+
+	<ObjectPageLayout id="ObjectPageLayout" upperCaseAnchorBar="false">
+		<headerTitle>
+			<ObjectPageDynamicHeaderTitle>
+				<expandedHeading>
+					<m:Title text="{i18n>costos}" />
+				</expandedHeading>
+
+				<snappedHeading>
+					<m:HBox>
+						<m:Avatar src="sap-icon://lead"
+							class="sapUiMediumMarginEnd" />
+						<m:VBox>
+							<m:Title text="{i18n>costos}" />
+						</m:VBox>
+					</m:HBox>
+				</snappedHeading>
+
+				<expandedContent>
+					<m:Label text="{ModelAviso>/Aufnr}"/>
+				</expandedContent>
+
+				<snappedTitleOnMobile>
+					<m:Title text="{ModelAviso>/Aufnr}" />
+				</snappedTitleOnMobile>
+
+			</ObjectPageDynamicHeaderTitle>
+		</headerTitle>
+
+		<headerContent>
+			<m:HeaderContainer id="headerContainer" scrollStep="800" showDividers="true">
+			<m:HBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+			
+				<m:Avatar src="sap-icon://lead" backgroundColor="Random" displaySize="L" class="sapUiTinyMarginEnd"/>
+			
+				<m:VBox class="sapUiSmallMarginEnd"> 
+				<m:HBox class="sapUiTinyMarginBottom">
+						<core:Icon src="sap-icon://number-sign"/>
+						<m:ObjectStatus title="{i18n>aufnr}" text="{Model>/Aufnr}"/>
+				</m:HBox>
+
+			</m:VBox>
+			</m:HBox>
+			
+			</m:HeaderContainer>
+		</headerContent>
+
+		<sections>
+			<ObjectPageSection titleUppercase="false" title="{i18n>cost}">
+				<subSections>
+					<ObjectPageSubSection title="{i18n>costos}" showTitle="false">
+						<blocks>
+							<forms:SimpleForm class="sapUxAPObjectPageSubSectionAlignContent"
+								layout="ColumnLayout"
+								columnsM="2"
+								columnsL="3"
+								columnsXL="4">
+								<core:Title text="{i18n>info}" />
+
+								<m:Label text="{i18n>CRR}" />
+								<m:Text text="{ parts: [{path: 'Model>/CostMat'}, {path: 'Model>/Twaer'}],
+                                                type:'sap.ui.model.type.Currency',
+                                                formatOptions: {
+                                                    currencyCode: true }}" />
+
+								<m:Label text="{i18n>CRS}" />
+								<m:Text text="{ parts: [{path: 'Model>/CostServ'}, {path: 'Model>/Twaer'}],
+                                                type:'sap.ui.model.type.Currency',
+                                                formatOptions: {
+                                                    currencyCode: true }}" />
+
+							</forms:SimpleForm>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+
+			
+		</sections>
+	</ObjectPageLayout>
+	</m:Page>
+
+
+
+</mvc:View>

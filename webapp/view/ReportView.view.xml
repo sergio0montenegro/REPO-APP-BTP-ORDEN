@@ -1,0 +1,185 @@
+<mvc:View controllerName="ns.zpmorderreportapp.controller.ReportView"
+   xmlns:mvc="sap.ui.core.mvc"
+    xmlns:t="sap.ui.table"
+    xmlns:core="sap.ui.core"
+	xmlns:m="sap.m"
+    xmlns="sap.uxap"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" 
+    xmlns:layout="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:c="sap.m.ColumnListItem"
+    xmlns:l="sap.m.List"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+	xmlns:smartTable="sap.ui.comp.smarttable"
+	xmlns:smartVariantManagement="sap.ui.comp.smartvariants"
+    height="100%">
+
+	 <ObjectPageLayout id="ObjectPageLayout">
+		<headerTitle>
+			<ObjectPageHeader objectTitle="{i18n>Titulo}"/>
+		</headerTitle>
+
+		<sections>
+
+			<ObjectPageSection titleUppercase="false" id="goalsSect" title="{i18n>gra}">
+				<subSections>
+					<ObjectPageSubSection id="goalsSectionS" titleUppercase="false">
+                        <m:Panel expandable="false" width="auto" class="sapUiResponsiveMargin" headerText="{i18n>filtro}">
+							<m:FlexBox
+                            height="30px"
+                            alignItems="Start"
+                            justifyContent="Start"> 
+                            <m:DatePicker 
+                                id="input1"
+                                dateValue="{path: '/startDate'}"
+                                placeholder="Fecha Inicial"
+                                width="150px" />
+                            <m:DatePicker 
+                                id="input2"
+                                dateValue="{path: '/endDate'}"
+                                placeholder="Fecha Final"
+                                width="150px" />
+                            <m:Button
+                                text="{i18n>buscar}"
+                                press="onBtnFilter"
+                                class="myCustomButton"/> 
+                            
+                        </m:FlexBox>	
+							<viz:Popover id="idPopover" />								
+                        <layout:FixFlex
+                        id="oVizColumn"
+                        minFlexSize="250">
+                        <layout:flexContent>
+                            <viz:VizFrame
+                                id="idFrameColumn"
+                                vizType="column"
+                                vizProperties="{path: 'graphModel>/vizPropertiesColumn'}"
+                                height="400px"
+                                width="100%">
+                                <viz:dataset>
+                                    <viz.data:FlattenedDataset
+                                        id="flatDataColumn"
+                                        data="{path: 'graphModel>/graphData/chartData'}" >
+                                        <!--Dimensions and Measures-->
+                                        <viz.data:dimensions>
+                                            <viz.data:DimensionDefinition
+												name="Item Mantenible"
+                                                value="{PartObj}"/>
+                                        </viz.data:dimensions>
+                                        <viz.data:measures>
+                                            <viz.data:MeasureDefinition
+                                                name="Cantidad"
+                                                value="{Count}" />
+                                        </viz.data:measures>
+                                    </viz.data:FlattenedDataset>
+                                </viz:dataset>
+                                <viz:feeds>
+                                    <viz.feeds:FeedItem
+                                        uid="categoryAxis"
+                                        type="Dimension"
+                                        values="Item Mantenible" />
+                                    <viz.feeds:FeedItem
+                                        uid="valueAxis"
+                                        type="Measure"
+                                        values="Cantidad" />
+                                </viz:feeds>
+                            </viz:VizFrame>
+                        </layout:flexContent>
+                    </layout:FixFlex>
+                    </m:Panel>						
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+                           
+			<ObjectPageSection titleUppercase="false" title="{i18n>rep}">
+				<subSections>
+
+					<ObjectPageSubSection  titleUppercase="false">
+						<m:Panel headerText="{i18n>repo}" >
+			
+							<smartFilterBar:SmartFilterBar 
+							id="smartFilterBar"
+							entitySet="ZPM_Entity_ReportSet"
+							persistencyKey="SmartFilter_Explored"
+                            considerAnalyticalParameters="true">
+
+                            <smartFilterBar:controlConfiguration>
+								<smartFilterBar:ControlConfiguration key="Erdat" visibleInAdvancedArea="true" label="{i18n>fechas}"
+																	 conditionType="{ module: 'sap.ui.comp.config.condition.DateRangeType',
+							 														  defaultOperation: 'LASTMONTH' }" />
+                                <smartFilterBar:ControlConfiguration key="Aufnr" visibleInAdvancedArea="true" label="{i18n>numOrd}" />
+                                <smartFilterBar:ControlConfiguration key="Auart" visibleInAdvancedArea="true" label="{i18n>ClOrd}"/>
+                                <smartFilterBar:ControlConfiguration key="Plgrp" visibleInAdvancedArea="true" label="{i18n>GPlan}"/>
+                                <smartFilterBar:ControlConfiguration key="Bukrs" visibleInAdvancedArea="true" label="{i18n>Sociedad}"/>
+                                <smartFilterBar:ControlConfiguration key="Sowrk" visibleInAdvancedArea="true" label="{i18n>cenEmpla}"/>
+                                <smartFilterBar:ControlConfiguration key="EstOrd" visible="false" />
+                                <smartFilterBar:ControlConfiguration key="Aviso" visible="false"/>
+                                <smartFilterBar:ControlConfiguration key="Iloan" visible="false"/>
+                                <smartFilterBar:ControlConfiguration key="Equnr" visible="false"/>
+                                <smartFilterBar:ControlConfiguration key="Invnr" visible="false"/>
+                                <smartFilterBar:ControlConfiguration key="Eqart" visible="false"/>
+                                <smartFilterBar:ControlConfiguration key="PartObj" visible="false"/>
+                                <smartFilterBar:ControlConfiguration key="ModFalla" visible="false"/>
+                                <smartFilterBar:ControlConfiguration key="Causa" visible="false"/>
+                                <smartFilterBar:ControlConfiguration key="Zzsistema" visible="false"/>
+                                <smartFilterBar:ControlConfiguration key="Zzsubsistema" visible="false"/>
+                                <smartFilterBar:ControlConfiguration key="CostMat" visible="false"/>
+                                <smartFilterBar:ControlConfiguration key="CostServ" visible="false"/>
+                                <smartFilterBar:ControlConfiguration key="Twaer" visible="false"/>
+                                <smartFilterBar:ControlConfiguration key="Stort" visible="false"/>
+                                
+
+           					</smartFilterBar:controlConfiguration>
+							
+							<smartFilterBar:layoutData>
+								<m:FlexItemData shrinkFactor="0"/>
+							</smartFilterBar:layoutData>
+						</smartFilterBar:SmartFilterBar>		
+
+						<smartTable:SmartTable 
+							id="LineItemsSmartTable"   
+                            entitySet="ZPM_Entity_ReportSet"
+							smartFilterId="smartFilterBar"
+							showFullScreenButton="true" 
+                            tableType="ResponsiveTable"
+							demandPopin="true"
+							useVariantManagement="true"
+							useTablePersonalisation="true" 
+							header="{i18n>Reporte}"
+							showRowCount="true" 
+                            enableAutoBinding="true"
+                            beforeExport="onBeforeExport"
+							persistencyKey="SmartTableAnalytical_Explored"
+							initiallyVisibleFields="Aufnr,Stort,Equnr,Invnr,Eqart,PartObj,ModFalla,Causa,EstOrd,Sowrk,Zzsistema,Zzsubsistema,Bukrs,Plgrp,Auart"
+							ignoredFields="Fecha,CostMat,CostServ,Erdat,Aviso"
+							class="sapUiResponsiveContentPadding">
+	
+								 <smartTable:items>		
+														
+									<m:Table alternateRowColors="true">										
+										<m:items>											
+											<m:ColumnListItem vAlign="Middle" type="Navigation" press="ItemPress" /> 
+										</m:items>						
+									</m:Table>  
+								</smartTable:items>	 
+										<smartTable:layoutData>
+											<m:FlexItemData growFactor="1" baseSize="0%"/>
+										</smartTable:layoutData>	
+                                    <smartTable:customToolbar>
+                                        <m:OverflowToolbar design="Transparent">
+                                            <m:ToolbarSpacer/>                                             
+                                        </m:OverflowToolbar>
+                                    </smartTable:customToolbar>									
+						</smartTable:SmartTable>
+
+						</m:Panel>
+					</ObjectPageSubSection>                    
+				</subSections>
+			</ObjectPageSection>	
+		</sections>
+	</ObjectPageLayout>		
+
+</mvc:View>
